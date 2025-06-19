@@ -3,8 +3,7 @@ local Players = game:GetService("Players")
 local player  = Players.LocalPlayer
 local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/ataturk123/GardenSpawner/refs/heads/main/Spawner.lua"))()
 
--- create ScreenGui
-local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+-- create ScreenGui\ nlocal screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 screenGui.Name = "DarkSpawnerUI"
 
 -- main window
@@ -91,24 +90,28 @@ for name,btn in pairs(tabButtons) do
 end
 
 -- input factory
+local padding  = 16
+local spacing  = 80
+local btnW, btnH = 140, 36
+
 local function makeInput(parent, y, labelText, placeholder)
     local lbl = Instance.new("TextLabel", parent)
-    lbl.Text            = labelText
-    lbl.Font            = Enum.Font.Gotham
-    lbl.TextSize        = 14
-    lbl.TextColor3      = Color3.fromRGB(200,200,200)
+    lbl.Text                = labelText
+    lbl.Font                = Enum.Font.Gotham
+    lbl.TextSize            = 14
+    lbl.TextColor3          = Color3.fromRGB(200,200,200)
     lbl.BackgroundTransparency = 1
-    lbl.Position        = UDim2.new(0,0,0,y)
+    lbl.Position            = UDim2.new(0, padding, 0, y)
 
     local box = Instance.new("TextBox", parent)
-    box.PlaceholderText = placeholder or ""
-    box.Font            = Enum.Font.Gotham
-    box.TextSize        = 14
-    box.TextColor3      = Color3.fromRGB(225,225,225)
-    box.BackgroundColor3 = Color3.fromRGB(50,50,50)
-    box.BorderSizePixel  = 0
-    box.Size            = UDim2.new(1, 0, 0, 30)
-    box.Position        = UDim2.new(0, 0, 0, y + 24)
+    box.PlaceholderText     = placeholder or ""
+    box.Font                = Enum.Font.Gotham
+    box.TextSize            = 14
+    box.TextColor3          = Color3.fromRGB(225,225,225)
+    box.BackgroundColor3    = Color3.fromRGB(50,50,50)
+    box.BorderSizePixel     = 0
+    box.Size                = UDim2.new(1, -padding*2, 0, 30)
+    box.Position            = UDim2.new(0, padding, 0, y + 24)
     Instance.new("UICorner", box).CornerRadius = UDim.new(0,6)
     return box
 end
@@ -116,23 +119,22 @@ end
 -- Pet tab
 do
     local f = contentFrames["Pet"]
-    local nameBox = makeInput(f, 0,  "Pet Name",    "Raccoon")
-    local kgBox   = makeInput(f, 80, "Weight (KG)", "1")
-    local ageBox  = makeInput(f, 160,"Age",         "2")
+    local nameBox = makeInput(f, 0,                  "Pet Name",    "Raccoon")
+    local kgBox   = makeInput(f, spacing,           "Weight (KG)", "1")
+    local ageBox  = makeInput(f, spacing * 2,       "Age",         "2")
 
     local btn = Instance.new("TextButton", f)
-    btn.Text             = "Spawn Pet"
-    btn.Font             = Enum.Font.GothamBold
-    btn.TextSize         = 16
-    btn.TextColor3       = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-    btn.BorderSizePixel  = 0
-    btn.Size             = UDim2.new(0,140,0,36)
-    btn.Position         = UDim2.new(1,-156,1,-52)
+    btn.Text               = "Spawn Pet"
+    btn.Font               = Enum.Font.GothamBold
+    btn.TextSize           = 16
+    btn.TextColor3         = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3   = Color3.fromRGB(0,170,255)
+    btn.BorderSizePixel    = 0
+    btn.Size               = UDim2.new(0, btnW, 0, btnH)
+    btn.Position           = UDim2.new(0.5, -btnW/2, 1, -padding - btnH)
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0,8)
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(0,200,255) end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(0,170,255) end)
-
     btn.MouseButton1Click:Connect(function()
         Spawner.SpawnPet(nameBox.Text, tonumber(kgBox.Text) or 1, tonumber(ageBox.Text) or 1)
     end)
@@ -144,18 +146,17 @@ do
     local box = makeInput(f, 0, "Seed Name", "Candy Blossom")
 
     local btn = Instance.new("TextButton", f)
-    btn.Text             = "Spawn Seed"
-    btn.Font             = Enum.Font.GothamBold
-    btn.TextSize         = 16
-    btn.TextColor3       = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(0, 255, 127)
-    btn.BorderSizePixel  = 0
-    btn.Size             = UDim2.new(0,140,0,36)
-    btn.Position         = UDim2.new(1,-156,1,-52)
+    btn.Text               = "Spawn Seed"
+    btn.Font               = Enum.Font.GothamBold
+    btn.TextSize           = 16
+    btn.TextColor3         = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3   = Color3.fromRGB(0,255,127)
+    btn.BorderSizePixel    = 0
+    btn.Size               = UDim2.new(0, btnW, 0, btnH)
+    btn.Position           = UDim2.new(0.5, -btnW/2, 1, -padding - btnH)
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0,8)
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(0,255,160) end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(0,255,127) end)
-
     btn.MouseButton1Click:Connect(function()
         Spawner.SpawnSeed(box.Text)
     end)
@@ -167,18 +168,17 @@ do
     local box = makeInput(f, 0, "Egg Name", "Night Egg")
 
     local btn = Instance.new("TextButton", f)
-    btn.Text             = "Spawn Egg"
-    btn.Font             = Enum.Font.GothamBold
-    btn.TextSize         = 16
-    btn.TextColor3       = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(255, 153, 51)
-    btn.BorderSizePixel  = 0
-    btn.Size             = UDim2.new(0,140,0,36)
-    btn.Position         = UDim2.new(1,-156,1,-52)
+    btn.Text               = "Spawn Egg"
+    btn.Font               = Enum.Font.GothamBold
+    btn.TextSize           = 16
+    btn.TextColor3         = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3   = Color3.fromRGB(255,153,51)
+    btn.BorderSizePixel    = 0
+    btn.Size               = UDim2.new(0, btnW, 0, btnH)
+    btn.Position           = UDim2.new(0.5, -btnW/2, 1, -padding - btnH)
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0,8)
     btn.MouseEnter:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(255,180,80) end)
     btn.MouseLeave:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(255,153,51) end)
-
     btn.MouseButton1Click:Connect(function()
         Spawner.SpawnEgg(box.Text)
     end)
@@ -190,19 +190,8 @@ do
     local box = makeInput(f, 0, "Item to Spin", "Sunflower")
 
     local btn = Instance.new("TextButton", f)
-    btn.Text             = "Spin"
-    btn.Font             = Enum.Font.GothamBold
-    btn.TextSize         = 16
-    btn.TextColor3       = Color3.fromRGB(255,255,255)
-    btn.BackgroundColor3 = Color3.fromRGB(181, 85, 215)
-    btn.BorderSizePixel  = 0
-    btn.Size             = UDim2.new(0,140,0,36)
-    btn.Position         = UDim2.new(1,-156,1,-52)
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0,8)
-    btn.MouseEnter:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(210,100,240) end)
-    btn.MouseLeave:Connect(function() btn.BackgroundColor3 = Color3.fromRGB(181,85,215) end)
-
-    btn.MouseButton1Click:Connect(function()
-        Spawner.Spin(box.Text)
-    end)
-end
+    btn.Text               = "Spin"
+    btn.Font               = Enum.Font.GothamBold
+    btn.TextSize           = 16
+    btn.TextColor3         = Color3.fromRGB(255,255,255)
+    btn.Background<Color### truncated due to length###
